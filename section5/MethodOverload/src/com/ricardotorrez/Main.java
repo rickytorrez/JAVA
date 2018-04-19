@@ -22,6 +22,16 @@ public class Main {
 
     public static int calculateScore(){
         System.out.println("No player name, no player score");
-        return score * 1000;
+        return 0;
     }
+
+    // Create a unitque method signature by naming the method anc changing the paramaters
+    // voids have no return
+
+
+    // Challenge
+
+
+    public static int
+
 }
