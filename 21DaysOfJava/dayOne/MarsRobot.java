@@ -11,7 +11,7 @@ class MarsRobot {
     }
 
     void showAttributes(){
-        System.out.println("Status: " + status);
+        System.out.println("Status: "+ status);
         System.out.println("Speed: " + speed);
         System.out.println("Temperature: " + temperature);
     }
