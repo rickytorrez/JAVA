@@ -41,7 +41,6 @@ public class LocationController {
 
 	@RequestMapping("deleteLocation")
 	public String deleleLocation(@RequestParam("id") int id, ModelMap modelMap) {				// Retrieve parameter from ids
-//		Location location = _ls.getLocationById(id);											// Pass location once it is found by the new id
 		Location location = new Location();
 		location.setId(id);
 		_ls.deleteLocation(location);														// invoke service, retrieve and pass location
@@ -50,4 +49,19 @@ public class LocationController {
 		return "displayLocations";											
 	}
 	
+	@RequestMapping("/showUpdate")
+	public String showUpdatePage(@RequestParam("id") int id, ModelMap modelMap) {
+		Location location = _ls.getLocationById(id);
+		modelMap.addAttribute("location", location);
+		return "updateLocation";
+	}
+	
+	@RequestMapping("/updateLoc")
+	public String updateLocation(@ModelAttribute("location") Location location, ModelMap modelMap) {
+		_ls.updateLocation(location);
+		List<Location> locations = _ls.getAllLocations();
+		modelMap.addAttribute("locations", locations);
+		return "displayLocations";
+	}
+		
 }
