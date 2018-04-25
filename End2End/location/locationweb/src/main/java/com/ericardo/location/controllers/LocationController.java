@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ericardo.location.entities.Location;
 import com.ericardo.location.service.LocationService;
@@ -38,4 +39,15 @@ public class LocationController {
 		return "displayLocations";
 	}
 
+	@RequestMapping("deleteLocation")
+	public String deleleLocation(@RequestParam("id") int id, ModelMap modelMap) {				// Retrieve parameter from ids
+//		Location location = _ls.getLocationById(id);											// Pass location once it is found by the new id
+		Location location = new Location();
+		location.setId(id);
+		_ls.deleteLocation(location);														// invoke service, retrieve and pass location
+		List<Location> locations = _ls.getAllLocations();
+		modelMap.addAttribute("locations", locations);
+		return "displayLocations";											
+	}
+	
 }
