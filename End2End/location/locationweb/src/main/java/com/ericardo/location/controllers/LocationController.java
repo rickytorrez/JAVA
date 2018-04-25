@@ -34,6 +34,7 @@ public class LocationController {
 	public String displayLocations(ModelMap modelMap) {
 		List<Location> locations = _ls.getAllLocations();
 		modelMap.addAttribute("locations ", locations);
+		System.out.println(locations);
 		return "displayLocations";
 	}
 
