@@ -33,7 +33,7 @@ public class LocationController {
 	@RequestMapping("/displayLocations")
 	public String displayLocations(ModelMap modelMap) {
 		List<Location> locations = _ls.getAllLocations();
-		modelMap.addAttribute("locations ", locations);
+		modelMap.addAttribute("locations", locations);
 		System.out.println(locations);
 		return "displayLocations";
 	}
