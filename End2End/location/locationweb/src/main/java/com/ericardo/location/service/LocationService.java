@@ -2,8 +2,11 @@ package com.ericardo.location.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.ericardo.location.entities.Location;
 
+@Service
 public interface LocationService {
 
 	// Save Location

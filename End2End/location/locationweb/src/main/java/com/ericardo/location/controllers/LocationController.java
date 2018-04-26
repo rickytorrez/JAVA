@@ -2,6 +2,8 @@ package com.ericardo.location.controllers;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ericardo.location.entities.Location;
+import com.ericardo.location.repos.LocationRepository;
 import com.ericardo.location.service.LocationService;
 import com.ericardo.location.util.EmailUtil;
+import com.ericardo.location.util.ReportUtil;
 
 @Controller
 public class LocationController {
@@ -20,7 +24,16 @@ public class LocationController {
 	LocationService _ls;
 	
 	@Autowired
+	LocationRepository _lR;
+	
+	@Autowired
 	EmailUtil emailUtil;
+	
+	@Autowired
+	ReportUtil reportUtil;
+	
+	@Autowired
+	ServletContext _sC;
 
 	@RequestMapping("/showCreate")
 	public String showCreate() {
@@ -71,5 +84,13 @@ public class LocationController {
 		modelMap.addAttribute("locations", locations);
 		return "displayLocations";
 	}
-		
+	
+	@RequestMapping("/generateReport")
+	public String generateReport() {
+		String path = _sC.getRealPath("/");
+		List<Object[]> data = _lR.findTypeAndTypeCount();
+		reportUtil.generatePieChart(path, data);
+		return "report";
+	}
+	
 }
