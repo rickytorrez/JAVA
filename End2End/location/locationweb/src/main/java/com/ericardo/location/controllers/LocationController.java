@@ -45,10 +45,10 @@ public class LocationController {
 		Location locationSaved = _ls.saveLocation(location);
 		String msg = "Location saved with id: " + locationSaved.getId();
 		modelMap.addAttribute("msg", msg);
-		emailUtil.snedEmail(
-				"nine1sixdc@gmail.com", 
-				"Location Saved", 
-				"Location Saved successfully and about to return a response");
+//		emailUtil.snedEmail(
+//				"nine1sixdc@gmail.com", 
+//				"Location Saved", 
+//				"Location Saved successfully and about to return a response");
 		return "createLocation";
 	}
 
