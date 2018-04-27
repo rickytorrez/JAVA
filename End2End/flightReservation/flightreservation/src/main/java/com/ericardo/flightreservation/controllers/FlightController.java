@@ -21,8 +21,6 @@ public class FlightController {
 			@RequestParam("from") String from, 
 			@RequestParam("to")String to, 
 			@RequestParam("departureDate")@DateTimeFormat(pattern="MM-dd-yyyy") Date departureDate) {
-		
-		
 		_fR.findFlights(from,to,departureDate);
 		return "/displayFlights";
 	}
