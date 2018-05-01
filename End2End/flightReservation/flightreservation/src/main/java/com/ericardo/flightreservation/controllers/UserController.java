@@ -22,13 +22,18 @@ public class UserController {
 		return "login/registerUser";
 	}
 	
-	@RequestMapping(value="/registerUser", method=RequestMethod.POST)
+	@RequestMapping("/login")
+	public String showLoginPage() {
+		return "login/login";
+	}
+	
+	@RequestMapping(value="registerUser", method = RequestMethod.POST)
 	public String register(@ModelAttribute("user") User user) {
 		_uR.save(user);
 		return "login/login";
 	}
 	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
+	@RequestMapping(value="login", method = RequestMethod.POST)
 	public String login(
 			@RequestParam("email") String email, 
 			@RequestParam("password") String password, ModelMap modelMap) {

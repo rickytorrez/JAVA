@@ -12,7 +12,7 @@
 			From: <input type="text" name="from" />
 			To: <input type="text" name="to" />
 			Departure Date: <input type="text" name="departureDate" />
-			<input type="submit" name="Search!" />
+			<input type="submit" value="Search" />
 		</form>
 	</body>
 </html>
