@@ -1,20 +1,19 @@
 package com.ericardo.flightreservation.repos;
 
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.ericardo.flightreservation.entities.Flight;
 
-public interface FlightRepository extends JpaRepository<Flight, Long> {
+public interface FlightRepository extends CrudRepository<Flight, Long> {
 	
-	@Query(value="from Flight where departureCity=:departureCity and arrivalCity=:arrivalCity and dateOfDeparture=:dateOfDeparture")
-	
+	@Query(value="select * FROM Flight where DEPARTURE_CITY  =  ?1 and ARRIVAL_CITY  =  ?2  and DATE_OF_DEPARTURE  =  ?3", nativeQuery=true)	
 	List<Flight> findFlights(
-			@Param("departureCity")String from, 
-			@Param("arrivalCity") String to, 
-			@Param("dateOfDeparture") Date departureDate); 
+			String from, 
+			String to, 
+			Date departureDate); 
 }

@@ -8,10 +8,10 @@
 </head>
 	<body>
 		<h2>Find Flights!</h2>
-		<form action="findFlights" method="post">
-			From: <input type="text" name="from" />
-			To: <input type="text" name="to" />
-			Departure Date: <input type="text" name="departureDate" />
+		<form action="/findFlights" method="post">
+			From: <input type="text" name="from" value="AUS"/>
+			To: <input type="text" name="to" value="NYC" />
+			Departure Date: <input type="text" name="departureDate" value="06-05-2018"/>
 			<input type="submit" value="Search" />
 		</form>
 	</body>
