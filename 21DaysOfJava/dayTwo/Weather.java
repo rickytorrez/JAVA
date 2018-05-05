@@ -18,7 +18,7 @@ public class Weather {
 
         float cel = 33;
 
-        System.out.println(cel + " degreees Celsius is ... ");
+            System.out.println(cel + " degreees Celsius is ... ");
 
         // To convert Celsius to Fahrenheit
         // Begin by multiplying by 9
