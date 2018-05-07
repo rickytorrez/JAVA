@@ -13,7 +13,7 @@ class ArrayCopier {
         int count = 0;
         while(count < array1.length && array1[count] != 1) {
             array2[count] = (float) array1[count];
-            System.out.print(array2[count++] + "  ");
+            System.out.print(array2[count++] + " ");
         }
         System.out.print("]");
     }
