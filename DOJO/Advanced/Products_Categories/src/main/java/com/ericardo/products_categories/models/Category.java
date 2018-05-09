@@ -100,7 +100,10 @@ public class Category {
 		this.updatedAt = updatedAt;
 	}
 	
-	// Constructor
+	public Category() {
+		this.createdAt = new Date();
+		this.updatedAt = new Date();
+	}
 	
 	
 }

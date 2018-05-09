@@ -27,10 +27,10 @@ public class Product {
 	private long id;
 	
 	@Size(min=1, max=255, message="Name cannot be blank")
-	String name;
+	private String name;
 	
-	@Size(min=1, max=1024, message="Description cannot be blank")
-	String description;
+	@Size(min=1, max=255, message="Please provide a description")
+	private String description;
 	
 	@NotNull
 	double price;
@@ -85,16 +85,16 @@ public class Product {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public double getPrice() {
