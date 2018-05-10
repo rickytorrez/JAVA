@@ -156,4 +156,11 @@ public class User {
 		this.updatedAt = updatedAt;
 	}
 	
+	// Blank Constructor
+	
+	public User() {
+		this.createdAt = new Date();
+		this.updatedAt = new Date();
+	}
+	
 }

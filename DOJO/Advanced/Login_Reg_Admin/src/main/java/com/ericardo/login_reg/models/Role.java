@@ -86,4 +86,12 @@ public class Role {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+	
+	// Blank Constructor
+	
+	public Role() {
+		this.createdAt = new Date();
+		this.updatedAt = new Date();
+	}
+	
 }

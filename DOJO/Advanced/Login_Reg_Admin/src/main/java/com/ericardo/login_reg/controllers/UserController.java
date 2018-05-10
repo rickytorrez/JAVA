@@ -24,24 +24,33 @@ public class UserController {
 	public UserController(UserService _uS) {
 		this._uS = _uS;
 	}
-
-    @RequestMapping("/registration")
-    public String registerForm(@Valid @ModelAttribute("user") User user) {
-    		System.out.println("is it clicking?" );
-        return "registrationPage";
-    }
     
-    @PostMapping("/registration")
-    public String registration(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, HttpSession session) {
+    @PostMapping("/register")
+    public String register(@Valid @ModelAttribute("user") User user, BindingResult result, Model model, HttpSession session) {
         if (result.hasErrors()) {
-            return "registrationPage";
+            return "loginPage";
         }
-        _uS.saveWithUserRole(user);
+        
+        if(_uS.findByEmail(user.getEmail( ) ) != null ) {
+        		model.addAttribute("emailError", "A user with this e-mail already exists");
+        		return "loginPage";
+        }
+        if(_uS.findByUsername(user.getUsername( ) ) != null ) {
+        		model.addAttribute("usernameError", "A user with this username already sxists");
+        		return "loginPage";
+        }
+        
+        if(_uS.all().size( ) < 1) {
+        		_uS.saveUserWithAdminRole(user);
+        } else {
+        		_uS.saveWithUserRole(user);	
+        }
+        
         return "redirect:/login";
     }
     
     @RequestMapping("/login")
-    public String login(@RequestParam(value="error", required=false) String error, @RequestParam(value="logout", required=false) String logout, Model model) {
+    public String login(@RequestParam(value="error", required=false) String error, @RequestParam(value="logout", required=false) String logout, Model model, @Valid @ModelAttribute("user") User user) {
         if(error != null) {
             model.addAttribute("errorMessage", "Invalid Credentials, Please try again.");
         }
@@ -59,5 +68,11 @@ public class UserController {
         return "homePage";
     }
     
+    @RequestMapping("/admin")
+    public String adminPage(Principal principal, Model model) {
+        String username = principal.getName();
+        model.addAttribute("currentUser", _uS.findByUsername(username));
+        return "admin";
+    }
+    
 }
-
