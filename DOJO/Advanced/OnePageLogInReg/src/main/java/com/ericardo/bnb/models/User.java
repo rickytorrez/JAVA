@@ -1,13 +1,10 @@
 package com.ericardo.bnb.models;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.Size;
@@ -15,13 +12,8 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.ericardo.bnb.models.Listing;
-import com.ericardo.bnb.models.Review;
-
 @Entity
 public class User {
-	
-	/*************************************** ATTRIBUTES **************************************/
 
 	@Id
  	@GeneratedValue
@@ -39,45 +31,15 @@ public class User {
 	@Size(min=8, max=124, message="Please provide a password longer than eight characters.")
 	private String password;
 	
-	private boolean host;
-	
  	@DateTimeFormat(pattern="MM:dd:yyyy HH:mm:ss")
  	private Date createdAt;
  	
  	@DateTimeFormat(pattern="MM:dd:yyyy HH:mm:ss")
  	private Date updatedAt;
  	
-	/************************************* RELATIONSHIPS *************************************/
-	
-	/************************************* with listing **************************************/
+ 	// Persist and Update //
  	
- 	@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
- 	private List<Listing> listings;
- 	
- 	public List<Listing> getListings() {
- 		return listings;
- 	}
- 	
- 	public void setListings(List<Listing> listings) {
- 		this.listings = listings;
- 	}
- 	
- 	/************************************* with review **************************************/
- 	
- 	@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
- 	private List<Review> reviews;
- 	
-	public List<Review> getReviews() {
-		return reviews;
-	}
-
-	public void setReviews(List<Review> reviews) {
-		this.reviews = reviews;
-	}
-
-	/********************************* PERSIST AND UPDATE  **********************************/
- 	
-	@PrePersist
+ 	@PrePersist
  	public void onCreate() {
  		this.createdAt = new Date();
  	}
@@ -87,7 +49,7 @@ public class User {
  		this.updatedAt = new Date();
  	}
 
- 	/******************************** SETTERS AND GETTERS  **********************************/
+ 	// Setters and Getters // 
  	
 	public long getId() {
 		return id;
@@ -145,15 +107,7 @@ public class User {
 		this.updatedAt = updatedAt;
 	}
 	
-	public boolean isHost() {
-		return host;
-	}
-
-	public void setHost(boolean host) {
-		this.host = host;
-	}
-
-	/********************************** EMPTY CONSTRUCTOR  **********************************/
+	// Empty Constructor //
 	
 	public User() {
 		this.createdAt = new Date();
