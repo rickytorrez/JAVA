@@ -63,7 +63,12 @@ public class UserController {
 		}
 	}
 	
+	// Login
 	
+	@PostMapping("/login")
+	public String login() {
+		return "";
+	}
 	
 	
 	
