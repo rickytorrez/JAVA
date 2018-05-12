@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ericardo.bnb.models.User;
@@ -66,19 +67,33 @@ public class UserController {
 	// Login
 	
 	@PostMapping("/login")
-	public String login() {
-		return "";
+	public String login(@RequestParam("email") String email, @RequestParam("passwowd") String password, HttpSession _session, RedirectAttributes _flash) {
+		if(email.length() < 1) {
+			_flash.addFlashAttribute("error", "Email cannot be blank");
+			return "redirect:/users/new";
+		} 
+		
+		User _user = _uS.findByEmail(email);
+		
+		if(_user == null) {
+			_flash.addFlashAttribute("error", "No user with this email was found");
+			return "redirect:/users/new";
+		} else {
+			if(_uS.isMatch(password, _user.getPassword())) {
+				_uS.login(_session, _user.getId());
+				return "redirect:/users";
+			} else {
+				_flash.addFlashAttribute("error", "Invalid Credentials");
+				return "redirect:/users/new";
+			}
+		}
 	}
 	
+	// Log out
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@RequestMapping("/logout")
+	public String logout(HttpSession _session) {
+		return _uS.redirect();
+	}
+
 }
