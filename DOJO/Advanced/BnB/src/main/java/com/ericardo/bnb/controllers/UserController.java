@@ -46,6 +46,11 @@ public class UserController {
 	
 	@PostMapping("/new")
 	public String create(@Valid @ModelAttribute("user") User user, BindingResult _result, RedirectAttributes _flash, HttpSession _session) {
+		if(_result.hasErrors()) {
+			_flash.addFlashAttribute("errors", _result.getAllErrors());
+			return "redirect:/users/new";
+		}
+		
 		return "";
 	}
 	
