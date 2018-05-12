@@ -49,9 +49,18 @@ public class UserController {
 		if(_result.hasErrors()) {
 			_flash.addFlashAttribute("errors", _result.getAllErrors());
 			return "redirect:/users/new";
+		} else {
+			User exists = _uS.findByEmail(user.getEmail());
+			
+			if(exists == null) {
+				User _user = _uS.create(user);
+				_uS.login(_session, _user.getId());
+				return "redirect:/users";
+			} else {
+				_flash.addFlashAttribute("error", "A user with this e-mail already exists.");
+				return "redirect:users/new";
+			}
 		}
-		
-		return "";
 	}
 	
 	
