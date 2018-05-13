@@ -35,4 +35,8 @@ public class ListingService {
 	public ArrayList<Listing> all(){
 		return (ArrayList<Listing>) _lR.findAll();
 	}
+	
+	public ArrayList<Listing> findByAddress(String address){
+		return (ArrayList<Listing>) _lR.findByAddress(address);
+	}
 }

@@ -4,12 +4,10 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link rel="stylesheet" type="text/css" href="/css/style.css">
 		<title>Insert title here</title>
 	</head>
 	<body>
@@ -18,31 +16,25 @@
 			<a href="/users/new">Logout</a>
 		</c:if>
 	
-		<p>Welcome, ${user.firstname}</p>
 	
-		<p>${listing.address}</p>
-		<p>${listing.description}</p>
+		Review of ${listing.address}
 		
-		<p>Email: ${listing.user.email}</p>
-		<p>Name: ${listing.user.firstname} ${listing.user.lastname}</p>
-		<p>Size: ${listing.size}</p>
-		<p>Cost ($): ${listing.cost}</p>
-		
-		<strong>Reviews: ( /5)</strong>
-		
-		
-		
-		<c:if test="${ !user.host }">
-			<a href="/listings/${listing.id}/review">Leave a Review</a>
-		</c:if>
-		
-		<div class="reviews">
-			<c:forEach items="${listing.reviews}" var="review">
-				<p>${review.user.firstname}:</p>
-				<p>Rating: ${review.rating}/5</p>
-				<p>${review.description}</p>
-			</c:forEach>
-		</div>
-		
+		<form:form action="/listings/${listing.id}/review" method="POST" modelAttribute="review">
+			<form:label path="description">Description
+				<form:errors path="description"></form:errors>
+				<form:textarea type="text" path="description"></form:textarea>
+			</form:label>
+			
+			<form:label path="rating">Rating
+				<form:errors path="rating"></form:errors>
+				<form:select path="rating">
+					<c:forEach items="${numbers}" var="number">
+						<form:option value="${number}">${number}</form:option>
+					</c:forEach>
+				</form:select>
+			</form:label>
+			
+			<input type="submit" value="Submit Review" />
+		</form:form>
 	</body>
 </html>
