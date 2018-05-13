@@ -60,6 +60,10 @@ public class ListingController {
 		if (!user.isHost()) {														// If user is not a host, redirect to listings
 			return "redirect:/listings";
 		}
+		System.out.println("USER");
+		System.out.println(user.getFirstname());
+		
+		System.out.println("HITTING IT");
 		
 		_model.addAttribute("user", user);
 		_model.addAttribute("listing", new Listing());
@@ -81,7 +85,8 @@ public class ListingController {
 			if(_result.hasErrors()) {												// Will show you errors and return 
 				return "/listings/host";		
 			} else {																	// If no errors
-				listing.setUser(user);												// Set foreign key - Setters and getters on model!
+				listing.setUser(user);												// Set foreign key - Setters and getters on model!		
+				listing.setAverage(0);												// Sets average rating to 0, for reviews to be averaged   <====			
 				_lS.create(listing);													// Create listing
 				return "redirect:/listings/host";
 			}
@@ -137,11 +142,50 @@ public class ListingController {
 			
 			return "/review";
 		} else {
-			review.setListing(_lS.find(id));											// Foreign Key for Listing
+			
+			Listing listing = _lS.find(id);											// Find the listing by its id
+			
+			review.setId(null);														// By setting id to null, STS creates a new instance and allows to leave more than one review
+			
+			List<Review> reviews = listing.getReviews();								// Gets list of reviews
+			reviews.add(review);														// Adds review being created
+			listing.setReviews(reviews);												// Returns new list of reviews
+			
+			double sum = 0;															// Initiates sum
+			
+			for(Review rev: listing.getReviews()) {									// Loop all of our reviews
+				sum += rev.getRating();												// Add the sum by its rating
+			}
+			
+			sum += review.getRating();												// Add the new rating to the review
+			sum /= listing.getReviews().size()+1;									// Get the average -- +1 refers to the new review
+//			listing.setAverage(sum);													// Update our listing
+			
+			listing.setAverage(sum);
+			
+			
+			review.setListing(listing);												// Foreign Key for Listing
 			review.setUser(user);													// Foreign Key for User
 			_rS.create(review);														// Creates a review
+			
+			_lS.update(listing);														// Use Listing service to update the listing
+			
 			return "redirect:/listings/";	
 		}
+	}
+	
+	// Search for part of a word in a string
+	public boolean scrub(String needle, String haystack) {							// Needle represents the thing you're looking for, haystack represents where you're looking for
+		needle = needle.toLowerCase();												// Lowercase the thing you're looking for
+		
+		for(int j=0; j<haystack.length()-needle.length()+1;j++) {					// for loops and moves string over to find the word you're looking for inside the string
+			String result = haystack.substring(j, j+needle.length()).toLowerCase();
+			// Found match and listing isnt already pushed
+			if(result.indexOf(needle) != -1) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	@RequestMapping("/search")														// Search box route (GET)
@@ -155,24 +199,24 @@ public class ListingController {
 			_model.addAttribute("user", user);
 		}
 		
-		ArrayList<Listing> listings = _lS.all();
+		ArrayList<Listing> allListings = _lS.all();
+		ArrayList<Listing> listings = new ArrayList<Listing>();
 		
-		
-		
+		for(Listing listing: allListings) {
+			if(scrub(search, listing.getAddress()) && !listings.contains(listing)) {					// Calls scrub function to loop for address
+				listings.add(listing);
+			}
+			if(scrub(search, listing.getSize()) && !listings.contains(listing)) {						// Calls scrub function to loop for size
+				listings.add(listing);
+			}
+			if(scrub(search, Double.toString(listing.getCost())) && !listings.contains(listing)) {	// Calls scrub function to loop for cost
+				listings.add(listing);
+			}
+		}
 		
 		_model.addAttribute("listings", listings);
 		
 		return "guest";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 }

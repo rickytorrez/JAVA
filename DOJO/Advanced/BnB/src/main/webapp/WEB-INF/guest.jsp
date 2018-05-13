@@ -36,7 +36,7 @@
 					<td>${listing.address }</td>
 					<td>${listing.size }</td>
 					<td>${listing.cost }</td>
-					<td><a href="/listings/${listing.id}">See More</a></td>
+					<td><a href="/listings/${listing.id}">${Math.floor(listing.average)}/5 - See More</a></td>
 				</tr>
 			</c:forEach>
 		</table>

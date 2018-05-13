@@ -24,7 +24,7 @@ public class Review {
 	/*************************************** ATTRIBUTES **************************************/
 	@Id
 	@GeneratedValue
-	private long id;
+	private Long id;
 	
 	@Size(min=1, max=255, message="Please provide a review.")
 	private String description;
@@ -82,11 +82,11 @@ public class Review {
 	
 	/******************************** SETTERS AND GETTERS  **********************************/
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

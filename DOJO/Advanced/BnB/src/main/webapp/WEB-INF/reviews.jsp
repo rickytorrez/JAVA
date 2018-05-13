@@ -28,7 +28,7 @@
 		<p>Size: ${listing.size}</p>
 		<p>Cost ($): ${listing.cost}</p>
 		
-		<strong>Reviews: ( /5)</strong>
+		<strong>Reviews: (${listing.average}/5)</strong>
 		
 		
 		

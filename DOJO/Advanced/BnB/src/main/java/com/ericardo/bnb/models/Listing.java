@@ -39,7 +39,9 @@ public class Listing {
 	
 	@Size(min=1, max=255, message="Please provide the size of your property.")
 	private String size;
-	 	
+	
+	private double average;
+
 	@DateTimeFormat(pattern="MM:dd:yyyy HH:mm:ss")
 	private Date createdAt;
 	 	
@@ -128,6 +130,14 @@ public class Listing {
 
 	public void setSize(String size) {
 		this.size = size;
+	}
+	
+	public double getAverage() {
+		return average;
+	}
+
+	public void setAverage(double average) {
+		this.average = average;
 	}
 
 	public Date getCreatedAt() {
