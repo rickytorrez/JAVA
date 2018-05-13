@@ -41,6 +41,15 @@
  					<form:input type="password" path="password"></form:input>
  				</form:label>
  			</p>
+ 			<p>
+ 				<form:label path="host">Option:
+ 					<form:errors path="host"></form:errors>
+ 					<form:select path="host">
+ 						<form:option value="true">Host</form:option>
+ 						<form:option value="false">Guest</form:option>
+ 					</form:select>
+ 				</form:label>
+ 			</p>
  			<input type="submit" value="Register"/>
  		</form:form>
  		

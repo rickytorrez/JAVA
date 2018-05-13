@@ -64,27 +64,30 @@ public class UserController {
 		}
 	}
 	
-	// Login
-	
 	@PostMapping("/login")
-	public String login(@RequestParam("email") String email, @RequestParam("password") String password, HttpSession _session, RedirectAttributes _flash) {
-		if(email.length() < 1) {
-			_flash.addFlashAttribute("error", "Email cannot be blank");
+	public String login(@RequestParam("email") String email,@RequestParam("password") String password,HttpSession _session,RedirectAttributes _flash){
+		if(email.length() < 1){// Dont waste a query.
+			_flash.addFlashAttribute("error","Email cannot be blank.");
+			return "redirect:/users/new";			
+		}
+
+		User user = _uS.findByEmail(email);
+
+		if(user == null){
+			_flash.addFlashAttribute("error","No user with this email was found.");
 			return "redirect:/users/new";
-		} 
-		
-		User _user = _uS.findByEmail(email);
-		
-		if(_user == null) {
-			_flash.addFlashAttribute("error", "No user with this email was found");
-			return "redirect:/users/new";
-		} else {
-			if(_uS.isMatch(password, _user.getPassword())) {
-				_uS.login(_session, _user.getId());
-				return "redirect:/users";
-			} else {
-				_flash.addFlashAttribute("error", "Invalid Credentials");
-				return "redirect:/users/new";
+		}else{
+			if(_uS.isMatch(password,user.getPassword())){
+				_uS.login(_session,user.getId());
+
+				if(user.isHost()){
+					return "redirect:/listings/host";
+				} else {
+				return "redirect:/listings";		
+				}
+			}else{
+				_flash.addFlashAttribute("error","Invalid Credentials");
+				return "redirect:/users/new";								
 			}
 		}
 	}

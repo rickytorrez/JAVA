@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ericardo.bnb.models.User;
 import com.ericardo.bnb.services.UserService;
 
 @Controller
@@ -20,10 +21,16 @@ public class RouteController {
 	
 	@RequestMapping("")																		// If route doesn't exist, redirect to login if not in session, else dashboard
 	public String index(HttpServletRequest _request, HttpSession _session) {
-		if(!_uS.isValid(_session)) {
+		if(!_uS.isValid(_session)) {															// If user not in session, take him to home route
 			return "redirect:/users/new";
 		} else {
-			return "redirect:/users";
+			User user = _uS.find((long) _session.getAttribute("id"));						// Query for user id
+			
+			if(user.isHost()) {																// If user is host, take him to host dashboard
+				return "redirect:/listings/host";
+			} else {																			// If not, take him to listings dash
+				return "redirect:/listings";
+			}
 		}
 	}
 	
