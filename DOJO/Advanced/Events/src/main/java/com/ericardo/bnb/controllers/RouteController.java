@@ -25,14 +25,7 @@ public class RouteController {
 			return "redirect:/users/new";
 		} else {
 			User user = _uS.find((long) _session.getAttribute("id"));						// Query for user id
-			
-//			return "/listings";
-			
-			if(user.isHost()) {																// If user is host, take him to host dashboard
-				return "redirect:/listings/host";
-			} else {																			// If not, take him to listings dash
-				return "redirect:/listings";
-			}
+			return "dashboard";	
 		}
 	}
 	
