@@ -220,44 +220,23 @@ public class ListingController {
 		
 		return "guest";
 	}
-		
+
 	@PostMapping("{id}")																		// Method to update listing only for host
-	public String update(@PathVariable("id") Long id, HttpSession _session, Model _model, @RequestParam("description") String description, @RequestParam("size") String size, @RequestParam("cost") double cost) {			//Trying to revalidate the listing on line 103
-		if(_session.getAttribute("id")  == null) {													// If your id is null, redirect you
+	public String update(@PathVariable("id") Long id,Model model,HttpSession _session,@RequestParam("description") String description,@RequestParam("size") String size,@RequestParam("cost") double cost){
+		if(_session.getAttribute("id") == null){												// If your id is null, redirect you
 			return "redirect:/users/new";
 		}
-		User user = _uS.find( (Long) _session.getAttribute("id"));									// Check if you're in session and get your id
-		
-//		if(!user.isHost()) {																			// If not a host, redirect you
-//			return "redirect:/listings/"+id;
-//		}
-		
-//		if(listing.getUser().getId() != user.getId()) {												// If the listing's user id is not equal to your user id, redirect you
-//			return "redirect:/listings/"+id;
-//		}
-		
-//		if(_result.hasErrors()) {
-//			return "reviews";
-//		}
-		
-		Listing listing = _lS.find(id);	
-		listing.setDescription(description);
+		User user = _uS.find((Long)_session.getAttribute("id"));								// Check if you're in session and get your id
+		// if(!user.isHost()){return "redirect:/listings/"+id;}
+		// if(listing.getUser().getId() != user.getId()){return "redirect:/listings/"+id;}
+
+		Listing listing = _lS.find(id);														// Get Listing id
+		listing.setDescription(description);													// Request Params Set 
 		listing.setSize(size);
 		listing.setCost(cost);
-		listing.setUser(user);
-		_lS.update(listing);
-		return "redirect:/"+id;
+		listing.setUser(user);																// Set Foreign creator key for safety
+		_lS.update(listing);																	// update
+		return "redirect:/"+id;																// post
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

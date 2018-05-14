@@ -31,11 +31,15 @@
 						<label>Description:</label>
 							<input type="text" name="description" value="${listing.description}"/>
 						<label>Size:</label>
-							<input type="text" name="size" />
+							<select name="size">
+								<option value="Small">Small</option>
+								<option value="Medium">Medium</option>
+								<option value="Large">Large</option>
+							</select>
 						<label>Cost:</label>
 							<input type="text" name="cost" value="${listing.cost}"/>
+						<input type="submit" value="Update"/>
 					</form>
-					<input type="submit" value="Update"/>
 					
 				</c:if>
 			</c:forEach>
