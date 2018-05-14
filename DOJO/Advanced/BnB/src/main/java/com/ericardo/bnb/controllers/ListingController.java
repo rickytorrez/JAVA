@@ -60,10 +60,10 @@ public class ListingController {
 		if (!user.isHost()) {														// If user is not a host, redirect to listings
 			return "redirect:/listings";
 		}
-		System.out.println("USER");
-		System.out.println(user.getFirstname());
-		
-		System.out.println("HITTING IT");
+//		System.out.println("USER");
+//		System.out.println(user.getFirstname());
+//		
+//		System.out.println("HITTING IT");
 		
 		_model.addAttribute("user", user);
 		_model.addAttribute("listing", new Listing());
@@ -158,7 +158,7 @@ public class ListingController {
 			}
 			
 			sum += review.getRating();												// Add the new rating to the review
-			sum /= listing.getReviews().size()+1;									// Get the average -- +1 refers to the new review
+			sum /= listing.getReviews().size()+1;										// Get the average -- +1 refers to the new review
 //			listing.setAverage(sum);													// Update our listing
 			
 			listing.setAverage(sum);
@@ -175,10 +175,10 @@ public class ListingController {
 	}
 	
 	// Search for part of a word in a string
-	public boolean scrub(String needle, String haystack) {							// Needle represents the thing you're looking for, haystack represents where you're looking for
+	public boolean scrub(String needle, String haystack) {								// Needle represents the thing you're looking for, haystack represents where you're looking for
 		needle = needle.toLowerCase();												// Lowercase the thing you're looking for
 		
-		for(int j=0; j<haystack.length()-needle.length()+1;j++) {					// for loops and moves string over to find the word you're looking for inside the string
+		for(int j=0; j<haystack.length()-needle.length()+1;j++) {						// for loops and moves string over to find the word you're looking for inside the string
 			String result = haystack.substring(j, j+needle.length()).toLowerCase();
 			// Found match and listing isnt already pushed
 			if(result.indexOf(needle) != -1) {
@@ -219,4 +219,38 @@ public class ListingController {
 		return "guest";
 	}
 		
+	@PostMapping("{listing.id}")																		// Method to update listing only for host
+	public String update(@PathVariable("id") Long id, @Valid @ModelAttribute("listing") Listing listing, HttpSession _session, Model _model, BindingResult _result) {			//Trying to revalidate the listing on line 103
+		if(_session.getAttribute("id")  == null) {													// If your id is null, redirect you
+			return "redirect:/users/new";
+		}
+		User user = _uS.find( (long) _session.getAttribute("id"));									// Check if you're in session and get your id
+		
+		if(!user.isHost()) {																			// If not a host, redirect you
+			return "redirect:/listings/"+id;
+		}
+		
+		if(listing.getUser().getId() != user.getId()) {												// If the listing's user id is not equal to your user id, redirect you
+			return "redirect:/listings/"+id;
+		}
+		
+		if(_result.hasErrors()) {
+			return "reviews";
+		}
+		
+		_lS.update(listing);
+		return "redirect:/"+id;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
