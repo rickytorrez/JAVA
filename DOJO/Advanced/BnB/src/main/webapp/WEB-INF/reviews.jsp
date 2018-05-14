@@ -26,21 +26,17 @@
 			<c:forEach items="${user.listings}" var="list">
 				<c:if test="${list.id == listing.id}">
 					<p>Listing for ${listing.address }</p>
-					<form:form action="/listings/${listing.id}" method="POST" modelAttribute="listing">
-						<form:label path="description">Description:
-							<form:errors path="description"></form:errors>
-							<form:input path="description"></form:input>
-						</form:label>
-						<form:label path="size">Size:
-							<form:errors path="size"></form:errors>
-							<form:input path="size"></form:input>
-						</form:label>
-						<form:label path="cost">Cost:
-							<form:errors path="cost"></form:errors>
-							<form:input path="cost"></form:input>
-						</form:label>
-					</form:form>
+					
+					<form action="/listings/${listing.id}" method="POST">
+						<label>Description:</label>
+							<input type="text" name="description" value="${listing.description}"/>
+						<label>Size:</label>
+							<input type="text" name="size" />
+						<label>Cost:</label>
+							<input type="text" name="cost" value="${listing.cost}"/>
+					</form>
 					<input type="submit" value="Update"/>
+					
 				</c:if>
 			</c:forEach>
 		</c:if>

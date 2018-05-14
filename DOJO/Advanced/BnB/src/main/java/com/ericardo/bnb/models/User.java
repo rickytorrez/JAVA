@@ -25,7 +25,7 @@ public class User {
 
 	@Id
  	@GeneratedValue
- 	private long id;
+ 	private Long id;
  	
 	@Size(min=1, max=124, message="First name must be between 1 -124 characters.")
 	private String firstname;
@@ -89,11 +89,11 @@ public class User {
 
  	/******************************** SETTERS AND GETTERS  **********************************/
  	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

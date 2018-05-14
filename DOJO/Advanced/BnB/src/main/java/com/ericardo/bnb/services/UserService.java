@@ -33,7 +33,7 @@ public class UserService {
 		}
 	}
 	
-	public void login(HttpSession _session, long id) {										// Use session to store the user id of the person logged in
+	public void login(HttpSession _session, Long id) {										// Use session to store the user id of the person logged in
 		_session.setAttribute("id", id);
 	}
 	
@@ -64,7 +64,7 @@ public class UserService {
 		return (ArrayList<User>) this._uR.findAll();
 	}
 	
-	public User find(long id) {
+	public User find(Long id) {
 		return (User) this._uR.findOne(id);
 	}
 	
@@ -76,7 +76,7 @@ public class UserService {
 		this._uR.save(user);
 	}
 	
-	public void destroy(long id) {
+	public void destroy(Long id) {
 		this._uR.delete(id);
 	}
 	

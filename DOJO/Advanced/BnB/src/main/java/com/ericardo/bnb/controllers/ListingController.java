@@ -41,7 +41,7 @@ public class ListingController {
 		User user;
 		
 		if(_session.getAttribute("id") != null ) {									// If user is not null
-			user = _uS.find( (long) _session.getAttribute("id"));						// use this method to
+			user = _uS.find( (Long) _session.getAttribute("id"));						// use this method to
 			_model.addAttribute("user", user);										// show the logout button
 		}
 		_model.addAttribute("listings", _lS.all());									// Use model to display all the listings in our jsp
@@ -55,7 +55,7 @@ public class ListingController {
 			return "redirect:/users/new";
 		}
 		
-		User user = _uS.find( (long) _session.getAttribute("id") );					// Find the id of the user in session
+		User user = _uS.find( (Long) _session.getAttribute("id") );					// Find the id of the user in session
 		
 		if (!user.isHost()) {														// If user is not a host, redirect to listings
 			return "redirect:/listings";
@@ -77,7 +77,7 @@ public class ListingController {
 			return "redirect:/users/new";
 		}
 		
-		User user = _uS.find( (long) _session.getAttribute("id"));					// Look up the person that's logged in
+		User user = _uS.find( (Long) _session.getAttribute("id"));					// Look up the person that's logged in
 		
 		if(!user.isHost()) {															// If you're not a host, take you back to listings
 			return "redirect:/listings";
@@ -85,6 +85,8 @@ public class ListingController {
 			if(_result.hasErrors()) {												// Will show you errors and return 
 				return "/listings/host";		
 			} else {																	// If no errors
+				System.out.println("CREATE LISTING " + user);
+				
 				listing.setUser(user);												// Set foreign key - Setters and getters on model!		
 				listing.setAverage(0);												// Sets average rating to 0, for reviews to be averaged   <====			
 				_lS.create(listing);													// Create listing
@@ -96,7 +98,7 @@ public class ListingController {
 	@RequestMapping("{id}")															// Method for letting user a single review
 	public String find(@PathVariable("id") Long id, Model _model, HttpSession _session) {
 		if(_session.getAttribute("id") != null) {									// If statement to show log out and leave a review tags
-			User user = _uS.find( (long) _session.getAttribute("id"));
+			User user = _uS.find( (Long) _session.getAttribute("id"));
 			_model.addAttribute("user", user);
 		}
 		
@@ -108,7 +110,7 @@ public class ListingController {
 	@RequestMapping("{id}/review")													// Method for routing us to make a review
 	public String review(@PathVariable("id") Long id, Model _model, HttpSession _session) {
 		if(_session.getAttribute("id") != null) {									// If you're a guess
-			User user = _uS.find( (long) _session.getAttribute("id"));				// find you by id
+			User user = _uS.find( (Long) _session.getAttribute("id"));				// find you by id
 			_model.addAttribute("user", user);										// spit your id out
 		} else {																		// If not a guess or a host
 			return "redirect:/listings/"+id;											// take you to see the listing
@@ -130,7 +132,7 @@ public class ListingController {
 			return "/listings/"+id+"/review";
 		}
 		
-		User user = _uS.find( (long) _session.getAttribute("id"));					// Sets User in session to variable user
+		User user = _uS.find( (Long) _session.getAttribute("id"));					// Sets User in session to variable user
 		
 		if(user.isHost()) {															// Host validation 
 			return "/listings";
@@ -195,7 +197,7 @@ public class ListingController {
 		User user;
 		
 		if(_session.getAttribute("id") != null) {
-			user = _uS.find( (long) _session.getAttribute("id"));
+			user = _uS.find( (Long) _session.getAttribute("id"));
 			_model.addAttribute("user", user);
 		}
 		
@@ -219,25 +221,30 @@ public class ListingController {
 		return "guest";
 	}
 		
-	@PostMapping("{listing.id}")																		// Method to update listing only for host
-	public String update(@PathVariable("id") Long id, @Valid @ModelAttribute("listing") Listing listing, HttpSession _session, Model _model, BindingResult _result) {			//Trying to revalidate the listing on line 103
+	@PostMapping("{id}")																		// Method to update listing only for host
+	public String update(@PathVariable("id") Long id, HttpSession _session, Model _model, @RequestParam("description") String description, @RequestParam("size") String size, @RequestParam("cost") double cost) {			//Trying to revalidate the listing on line 103
 		if(_session.getAttribute("id")  == null) {													// If your id is null, redirect you
 			return "redirect:/users/new";
 		}
-		User user = _uS.find( (long) _session.getAttribute("id"));									// Check if you're in session and get your id
+		User user = _uS.find( (Long) _session.getAttribute("id"));									// Check if you're in session and get your id
 		
-		if(!user.isHost()) {																			// If not a host, redirect you
-			return "redirect:/listings/"+id;
-		}
+//		if(!user.isHost()) {																			// If not a host, redirect you
+//			return "redirect:/listings/"+id;
+//		}
 		
-		if(listing.getUser().getId() != user.getId()) {												// If the listing's user id is not equal to your user id, redirect you
-			return "redirect:/listings/"+id;
-		}
+//		if(listing.getUser().getId() != user.getId()) {												// If the listing's user id is not equal to your user id, redirect you
+//			return "redirect:/listings/"+id;
+//		}
 		
-		if(_result.hasErrors()) {
-			return "reviews";
-		}
+//		if(_result.hasErrors()) {
+//			return "reviews";
+//		}
 		
+		Listing listing = _lS.find(id);	
+		listing.setDescription(description);
+		listing.setSize(size);
+		listing.setCost(cost);
+		listing.setUser(user);
 		_lS.update(listing);
 		return "redirect:/"+id;
 	}
