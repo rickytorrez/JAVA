@@ -1,4 +1,4 @@
-package com.ericardo.rest;
+package com.ericardo.rest.helloworld;
 
 public class HelloWorldBean {
 
