@@ -10,6 +10,11 @@ public class User {
 	
 	private Date birthDate;
 
+	// Default no-argument constructor
+	protected User() {
+		
+	}
+	
 	public Integer getId() {
 		return Id;
 	}
